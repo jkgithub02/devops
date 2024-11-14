@@ -20,7 +20,7 @@ jobs: # jobs [required] - one or more jobs, sequence of tasks (steps)
     uses: ./.github/workflows/test.yml
   deploy:
     needs: test
-    environment: main # environment [optional] - name of the environment, else is repository
+    environment: prd # environment [optional] - name of the environment, else is repository
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
