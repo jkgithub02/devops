@@ -1,0 +1,40 @@
+#1. Defining workflows ###
+#2. Core Components
+#  name is optional, and it is displayed on your GitHub Actions page.
+name: Java CICD with Maven
+
+#3. Events/Triggers
+#  'on' is required, and it defines the event that triggers the workflow.
+#  what triggers the workflow? google 'Github Events'
+on:
+  push:
+    branches:["main"]
+  pull_request:
+      branches:["main"]
+
+#4. Workflow Execution
+#what are the actions?
+#each job could have one or more steps.
+#steps can run commands, setup tasks or run actions
+jobs:
+  build:
+#    runners
+    runs-on: ubuntu-latest
+    steps:
+      #uses - runs an action
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: : "temurin"
+          cache: maven
+        #run - runs a command line command
+      - name: Build with Maven
+        run: mvn -B package --files pom.xml
+      - name: Upload arifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: target-files
+          path: target
